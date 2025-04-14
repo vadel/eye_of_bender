@@ -37,6 +37,23 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
 
 
+async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    help_text = """
+📜 *The Sacred Laws of the Queue* 👁️🔥
+
+Here’s what I can do, mortal:
+
+/start – Awaken the Eye of Bender.
+/help – Summon this sacred scroll of commands.
+/squeue – View the current Slurm queue (`squeue`).
+/blame – Expose the top cluster abusers. 😈
+
+⚠️ Use wisely. Abusive job scripts will be... bent.
+"""
+    await update.message.reply_text(help_text, parse_mode="Markdown")
+
+
+
 async def squeue_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     try:
         result = subprocess.run(['squeue'], capture_output=True, text=True, check=True, shell=True)
@@ -65,6 +82,7 @@ async def blame_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 application.add_handler(CommandHandler('start', start))
+application.add_handler(CommandHandler("help", help_command))
 application.add_handler(CommandHandler("squeue", squeue_command))
 application.add_handler(CommandHandler("blame", blame_command))
 
