@@ -1,0 +1,6 @@
+- [ ] Track-bot current state and medium-term stats 
+- [ ] Docs
+    - [ ] Starting guide 
+    - [ ] Technical limitations of the cluster
+    - [ ] Zen (best practices / rules)
+    - [ ] FAQs
