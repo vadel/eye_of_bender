@@ -46,6 +46,7 @@ Here’s what I can do, mortal:
 /start – Awaken the Eye of Bender.
 /help – Summon this sacred scroll of commands.
 /squeue – View the current Slurm queue (`squeue`).
+/health – Scans the cluster's vital signs.
 /blame – Expose the top cluster abusers. 😈
 
 ⚠️ Use wisely. Abusive job scripts will be... bent.
@@ -80,10 +81,24 @@ async def blame_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text(f"😵 Unexpected error:\n{e}")
 
 
+async def health_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    try:
+        result = subprocess.run(['sh scripts/health.sh'], capture_output=True, text=True, check=True, shell=True)
+        output = result.stdout
+        if len(output) > 4000:
+            output = output[:3996] + "\n..."
+        await update.message.reply_text(f"```\n{output}\n```", parse_mode="Markdown")
+    except Exception as e:
+        await update.message.reply_text(f"😵 Failed to check cluster health:\n{e}")
+
+
+
 
 application.add_handler(CommandHandler('start', start))
 application.add_handler(CommandHandler("help", help_command))
 application.add_handler(CommandHandler("squeue", squeue_command))
 application.add_handler(CommandHandler("blame", blame_command))
+application.add_handler(CommandHandler("health", health_command))
+
 
 application.run_polling()
