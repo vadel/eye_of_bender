@@ -56,15 +56,15 @@ top_jobs_user=$(for u in "${!user_job_count[@]}"; do echo "$u ${user_job_count[$
 top_time_user=$(for u in "${!user_max_time[@]}"; do echo "$u ${user_max_time[$u]}"; done | sort -k2 -nr | head -n1 | cut -d' ' -f1)
 
 # Markdown Table Header
-echo "| USER       | JOBS | MAX_RUNNING_TIME     | 🏅 |"
-echo "|------------|------|----------------------|-----|"
+echo "| USER          | JOBS | MAX_RUNNING_TIME   | 🏅 |"
+echo "|---------------|------|--------------------|----|"
 
 # Markdown Table Rows
 for user in "${!user_job_count[@]}"; do
     badge=""
     [[ "$user" == "$top_jobs_user" ]] && badge+="🧨"
     [[ "$user" == "$top_time_user" ]] && badge+="🔥"
-    printf "| %-10s | %-4s | %-20s | %-3s |\n" \
+    printf "| %-13s | %-4s | %-18s | %-2s |\n" \
         "$user" \
         "${user_job_count[$user]}" \
         "${user_max_time_human[$user]}" \
